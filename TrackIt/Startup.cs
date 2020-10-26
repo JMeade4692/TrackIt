@@ -12,6 +12,10 @@ using TrackIt.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using BulkyBook.DataAccess.Repository.IRepository;
+using BulkyBook.DataAccess.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using BulkyBook.Utility;
 
 namespace TrackIt
 {
@@ -32,9 +36,27 @@ namespace TrackIt
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSingleton<IEmailSender, EmailSender>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddControllersWithViews();
             services.AddRazorPages();
-        }
+            
 
+            services.AddAuthentication().AddFacebook(options =>
+            {
+                options.AppId = "627635894858255";
+                options.AppSecret = "1fcedb50d8bdca6b7a6fe95b459c47b3";
+
+            });
+            services.AddAuthentication().AddGoogle(options =>
+            {
+                options.ClientId = "165124157531-qnrg3cb7u7hiaiop4u35p6bjmb4ftlcs.apps.googleusercontent.com";
+                options.ClientSecret = "XrBIxVce6mUPDHxPNRmycUKs";
+            });
+
+           
+        }
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -45,11 +67,10 @@ namespace TrackIt
             }
             else
             {
-                app.UseExceptionHandler("/Error");
+                app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -60,6 +81,9 @@ namespace TrackIt
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

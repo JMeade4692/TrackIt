@@ -1,0 +1,31 @@
+﻿
+using Microsoft.Extensions.Options;
+using SendGrid;
+using SendGrid.Helpers.Mail;
+using System.Threading.Tasks;
+using TrackIt;
+
+namespace BulkyBook.Utility
+{
+    public class EmailSender : Microsoft.AspNetCore.Identity.UI.Services.IEmailSender
+    {
+        private readonly EmailOptions emailOptions;
+
+        public EmailSender(IOptions<EmailOptions> options)
+        {
+            emailOptions = options.Value;
+        }
+        public Task SendEmailAsync(string email, string subject, string htmlMessage)
+        {
+            return Execute(emailOptions.SendGridKey, subject, htmlMessage, email);
+        }
+        private Task Execute(string sendGridKEy, string subject, string message, string email)
+        {
+            var client = new SendGridClient(sendGridKEy);
+            var from = new EmailAddress("admin@trackit.com", "TrackIt");
+            var to = new EmailAddress(email, "End User");
+            var msg = MailHelper.CreateSingleEmail(from, to, subject, "", message);
+            return client.SendEmailAsync(msg);
+        }
+    }
+}
