@@ -16,6 +16,7 @@ using BulkyBook.DataAccess.Repository.IRepository;
 using BulkyBook.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using BulkyBook.Utility;
+using TrackIt.Repository.IRespository;
 
 namespace TrackIt
 {
@@ -37,10 +38,10 @@ namespace TrackIt
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork1, UnitOfWork>();
             services.AddControllersWithViews();
             services.AddRazorPages();
-            
+            services.AddScoped<IRepository, Repository>();
 
             services.AddAuthentication().AddFacebook(options =>
             {

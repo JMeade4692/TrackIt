@@ -6,7 +6,7 @@ using TrackIt.DataAccess.Repository.IRepository;
 
 namespace BulkyBook.DataAccess.Repository
 {
-    public class UnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork1
     {
         private readonly ApplicationDbContext _db;
 
@@ -20,9 +20,9 @@ namespace BulkyBook.DataAccess.Repository
         public ICategoryRepository Category { get; private set; }
         public ISP_Call SP_Call { get; private set; }
 
-        ICategoryRepository IUnitOfWork.Category => throw new NotImplementedException();
+        ICategoryRepository IUnitOfWork1.Category => throw new NotImplementedException();
 
-        ISP_Call IUnitOfWork.SP_Call => throw new NotImplementedException();
+        ISP_Call IUnitOfWork1.SP_Call => throw new NotImplementedException();
 
         public void Dispose()
         {

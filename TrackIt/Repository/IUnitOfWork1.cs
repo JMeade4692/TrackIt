@@ -5,7 +5,7 @@ using TrackIt.DataAccess.Repository.IRepository;
 
 namespace BulkyBook.DataAccess.Repository.IRepository
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork1 : IDisposable
     {
         ICategoryRepository Category { get; }
         ISP_Call SP_Call { get; }

@@ -5,92 +5,82 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TrackIt.Data;
+using TrackIt.Models;
 using TrackIt.Repository.IRespository;
 
 namespace TrackIt.Repository
 {
-     public class Repository<T> : IRepository<T> where T : class
+     public class Repository : IRepository
     {
 
         private readonly ApplicationDbContext _db;
-        internal DbSet<T> dbSet;
+        
 
         public Repository(ApplicationDbContext db)
         {
             _db = db;
-            this.dbSet = _db.Set<T>();
+            
         }
 
-        public void Add(T entity)
+        public Image GetImage(int id)
         {
-            dbSet.Add(entity);
+            Image img = new Image();
+            img = _db.Images.FirstOrDefault(i => i.RecordID == id);
+            if (img == null) return img;
+            string imageBase64Data = Convert.ToBase64String(img.ImageData);
+            img.ImageDataUrl = string.Format("data:image/jpg;base64,{0}", imageBase64Data);
+            return img;
         }
 
-        public T Get(int id)
+        public VolunteerRecord GetRecord(int id)
         {
-            return dbSet.Find(id);
+            return _db.VolunteerHours.FirstOrDefault(v => v.RecordID == id);
         }
 
-        public IEnumerable<T> GetAll(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = null)
+        public List<VolunteerRecord> GetRecords()
         {
-            IQueryable<T> query = dbSet;
+            return _db.VolunteerHours.ToList();
+        }
 
-            if (filter != null)
+        public void SaveImage(Image image)
+        {
+            Image dbEntry = _db.Images
+               .FirstOrDefault(d => d.ID == image.ID);
+            if (dbEntry != null)
             {
-                query = query.Where(filter);
+                dbEntry.RecordID = image.RecordID;
+                dbEntry.ImageData = image.ImageData;
+                dbEntry.ImageTitle = image.ImageTitle;
+
+            }
+            else
+            {
+                _db.Images.Add(image);
             }
 
-            if (includeProperties != null)
+            _db.SaveChanges();
+        }
+
+        public void SaveRecord(VolunteerRecord record)
+        {
+            if (record.RecordID == 0)
             {
-                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+                _db.VolunteerHours.Add(record);
+                _db.SaveChanges();
+            }
+            else
+            {
+                VolunteerRecord dbEntry = _db.VolunteerHours
+                    .FirstOrDefault(p => p.RecordID == record.RecordID);
+                if (dbEntry != null)
                 {
-                    query = query.Include(includeProp);
+                    dbEntry.EventName = record.EventName;
+                    dbEntry.Notes = record.Notes;
+
+                    _db.SaveChanges();
+
                 }
             }
-
-            if (orderBy != null)
-            {
-                return orderBy(query).ToList();
-            }
-            return query.ToList();
         }
-
-        public T GetFirstOrDefault(Expression<Func<T, bool>> filter = null, string includeProperties = null)
-        {
-            IQueryable<T> query = dbSet;
-
-            if (filter != null)
-            {
-                query = query.Where(filter);
-            }
-
-            if (includeProperties != null)
-            {
-                foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
-                {
-                    query = query.Include(includeProp);
-                }
-            }
-
-
-            return query.FirstOrDefault();
-        }
-
-        public void Remove(int id)
-        {
-            T entity = dbSet.Find(id);
-            Remove(entity);
-        }
-
-        public void Remove(T entity)
-        {
-            dbSet.Remove(entity);
-        }
-
-        public void RemoveRange(IEnumerable<T> entity)
-        {
-            dbSet.RemoveRange(entity);
-        }
-    
     }
 }

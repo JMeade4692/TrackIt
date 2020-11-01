@@ -13,12 +13,17 @@ namespace TrackIt.Data
             : base(options)
         {
 
-            
+
         }
-        public DbSet<Category> Categories { get; set; }
+        //public DbSet<Category> Categories { get; set; }
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
-        public DbSet<ApplicationUser> Companies { get; set; }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
+        public DbSet<ApplicationUser> Companies { get; set; }
+
+        public DbSet<VolunteerRecord> VolunteerHours { get; set; }
+
+        public DbSet<Image> Images { get; set; }
+
     }
 }
