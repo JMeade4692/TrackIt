@@ -34,12 +34,12 @@ namespace TrackIt.Repository
 
         public VolunteerRecord GetRecord(int id)
         {
-            return _db.VolunteerHours.FirstOrDefault(v => v.RecordID == id);
+            return _db.VolunteerRecords.FirstOrDefault(v => v.RecordID == id);
         }
 
         public List<VolunteerRecord> GetRecords()
         {
-            return _db.VolunteerHours.ToList();
+            return _db.VolunteerRecords.ToList();
         }
 
         public void SaveImage(Image image)
@@ -65,12 +65,12 @@ namespace TrackIt.Repository
         {
             if (record.RecordID == 0)
             {
-                _db.VolunteerHours.Add(record);
+                _db.VolunteerRecords.Add(record);
                 _db.SaveChanges();
             }
             else
             {
-                VolunteerRecord dbEntry = _db.VolunteerHours
+                VolunteerRecord dbEntry = _db.VolunteerRecords
                     .FirstOrDefault(p => p.RecordID == record.RecordID);
                 if (dbEntry != null)
                 {

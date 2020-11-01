@@ -23,7 +23,7 @@ namespace TrackIt.Models
 
         public int? CompanyId { get; set; }
 
-        [ForeignKey("CompnayId")]
+        [ForeignKey("CompanyId")]
         public Company Company { get; set; }
 
 

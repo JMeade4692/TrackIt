@@ -21,7 +21,7 @@ namespace TrackIt.Data
 
         public DbSet<ApplicationUser> Companies { get; set; }
 
-        public DbSet<VolunteerRecord> VolunteerHours { get; set; }
+        public DbSet<VolunteerRecord> VolunteerRecords { get; set; }
 
         public DbSet<Image> Images { get; set; }
 
