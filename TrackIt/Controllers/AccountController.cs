@@ -21,20 +21,28 @@ namespace TrackIt.Controllers
         {
             return View();
         }
-
         public IActionResult Profile()
         {
-            var model = repository.GetRecords();
-            return View(model);
-            
+            return View();
         }
-        public IActionResult UploadPic(VolunteerRecord record)
+        public IActionResult UploadPic()
         {
-            repository.SaveRecord(record);
-            UploadImage(record);
-            return RedirectToAction("Profile");
-            
+            return View();
         }
+
+        //public IActionResult Profile()
+        //{
+        //    var model = repository.GetRecords();
+        //    return View(model);
+
+        //}
+        //public IActionResult UploadPic(VolunteerRecord record)
+        //{
+        //    repository.SaveRecord(record);
+        //    UploadImage(record);
+        //    return RedirectToAction("Profile");
+            
+        //}
         public void UploadImage(VolunteerRecord record)
         {
             if (record.RecordID > 0)

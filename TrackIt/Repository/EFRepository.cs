@@ -10,13 +10,13 @@ using TrackIt.Repository.IRespository;
 
 namespace TrackIt.Repository
 {
-     public class Repository : IRepository
+     public class EFRepository : IRepository
     {
 
         private readonly ApplicationDbContext _db;
         
 
-        public Repository(ApplicationDbContext db)
+        public EFRepository(ApplicationDbContext db)
         {
             _db = db;
             

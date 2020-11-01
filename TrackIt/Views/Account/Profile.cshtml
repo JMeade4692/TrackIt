@@ -1,8 +1,8 @@
-﻿@model IEnumerable<VolunteerRecord>
+﻿@*@model IEnumerable<VolunteerRecord>
 
 @foreach (var record in Model) 
 {<div>
     <p>@record.EventName</p>
-</div> }
+</div> }*@
 
 <a asp-action="UploadPic" class="btn btn-primary"><span>Make New Record</span></a>
