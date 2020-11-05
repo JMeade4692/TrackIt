@@ -14,10 +14,14 @@ namespace TrackIt.Models
 
         public byte[] ImageData { get; set; }
 
-        public int RecordID { get; set; }
+        //public int RecordID { get; set; }
+
+        public int ForeignID { get; set; }
+
             
 
         [NotMapped]
         public string ImageDataUrl { get; set; }
+        public object RecordID { get; internal set; }
     }
 }

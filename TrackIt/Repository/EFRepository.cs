@@ -25,7 +25,7 @@ namespace TrackIt.Repository
         public Image GetImage(int id)
         {
             Image img = new Image();
-            img = _db.Images.FirstOrDefault(i => i.RecordID == id);
+            //img = _db.Images.FirstOrDefault(i => i.RecordID == id);
             if (img == null) return img;
             string imageBase64Data = Convert.ToBase64String(img.ImageData);
             img.ImageDataUrl = string.Format("data:image/jpg;base64,{0}", imageBase64Data);

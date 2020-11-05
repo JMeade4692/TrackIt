@@ -6,6 +6,33 @@
 }
 
 <h4>@ViewData["Title"]</h4>
+<div class=" align-content-center">
+
+    @*//This is supposed to get the picture from the user, still working on bugs for this 
+    @await Component.InvokeAsync("ImageRetriever", new { ForeginID = Model.User.Identity })*@
+
+
+
+
+    <form method="post" enctype="multipart/form-data">
+
+        <div>
+            <label for="file1">Picture Upload</label>
+            <input type="file" id="file1"
+                   name="file1"
+                   multiple="multiple" />
+        </div>
+
+        <div class="form-group">
+            <label for="exampleInputFile">File input</label>
+            <input type="file" class="form-control-file" id="exampleInputFile" aria-describedby="fileHelp">
+            <small id="fileHelp" class="form-text text-muted">Add any files if you have any!!</small>
+        </div>
+    </form>
+</div>
+
+
+
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
     <div class="col-md-6">
@@ -24,6 +51,9 @@
         </form>
     </div>
 </div>
+
+
+
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
